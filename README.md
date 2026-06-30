@@ -1,59 +1,72 @@
-# Nextfolio
+# Ochuko Whoro Portfolio
 
-A clean, fast, and lightweight portfolio template built with [Next.js](https://nextjs.org/), [Vercel](https://vercel.com/), and [Tailwind CSS](https://tailwindcss.com/).
+Personal portfolio and blog for [ochukowhoro.com](https://ochukowhoro.com), built with Next.js, TypeScript, and Tailwind CSS.
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2F1msirius%2FNextfolio)
+## Development
 
-## Technologies Used
-
-- Framework: [Next.js](https://nextjs.org/)
-- Styling: [Tailwind CSS](https://tailwindcss.com/)
-- Analytics: [Vercel Web Analytics](https://vercel.com/docs/speed-insights) and [Speed Insights](https://vercel.com/docs/speed-insights)
-- Deployment: [Vercel](https://vercel.com/)
-
-## Features
-
-- **[MDX](https://mdxjs.com/) Support**: Use Markdown with JSX components for blog posts.
-- **Light and Dark Mode Toggle**: Switch between themes for better readability.
-- **Dynamic [OG Images](https://vercel.com/docs/functions/og-image-generation)**: Auto-generate Open Graph images for sharing.
-- **SEO Optimization**: Enhance search visibility with sitemap, robots.txt, and JSON-LD schema.
-- **Dynamic Feed Generation**: Automatic dynamic [RSS](https://nextfolio-template.vercel.app/rss.xml), [Atom](https://nextfolio-template.vercel.app/atom.xml), and [JSON](https://nextfolio-template.vercel.app/feed.json) feeds.
-- **[KaTeX](https://katex.org/) Integration**: Render mathematical expressions smoothly.
-- **Performance Tracking**: Monitor web performance with [Vercel Web Analytics](https://vercel.com/docs/speed-insights) and [Speed Insights](https://vercel.com/docs/speed-insights).
-- **Interactive Embeds**: Easily embed interactive tweets and YouTube videos.
-- **Captions**: Add descriptive captions to photos, tweets, and videos.
-- **Image Grid**: Easily showcase image galleries or photos.
-
-## Installation
-
-Nextfolio uses [pnpm](https://pnpm.io/installation) for dependency management, so ensure it is installed on your system.
-
-Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [pnpm](https://pnpm.io/installation) to bootstrap the example:
-
-```
-pnpm create next-app --example https://github.com/1msirius/Nextfolio my-portfolio
+```bash
+npm run dev
+npm run build
 ```
 
-Start the development server:
+## Blog Posts
 
+Posts live in `content/blog/*.md` and use plain Markdown with frontmatter:
+
+```md
+---
+title: "Post title"
+description: "Short SEO-friendly summary."
+date: "2026-06-30"
+tags: "Kubernetes, Go, AWS"
+published: true
+---
+
+Write the post in Markdown.
 ```
-pnpm dev
+
+The filename becomes the slug. For example, `content/blog/kubernetes-notes.md` is published at `/blog/kubernetes-notes`.
+
+Only posts with `published: true` are listed, routed, included in feeds, and used for tag pages.
+
+Supported post features include Markdown headings, paragraphs, links, lists, blockquotes, inline code, fenced code blocks with syntax highlighting, tags, reading time, RSS/Atom/JSON feeds, and sitemap entries.
+
+## Projects
+
+Projects live in `content/projects/*.md` and use Markdown frontmatter:
+
+```md
+---
+title: "Kubernetes Rate Limiter"
+description: "Short project summary."
+date: "2026-06-30"
+status: "In progress"
+featured: true
+github: "https://github.com/username/repo"
+demo: "https://example.com"
+cover: "/opengraph-image.png"
+tags: "Kubernetes, Go, Platform Engineering"
+stack: "Go, Kubernetes, Prometheus"
+published: true
+---
+
+## Overview
+
+## Motivation
+
+## Architecture
+
+## Design decisions
+
+## Challenges
+
+## Lessons learned
+
+## Screenshots
+
+## Future improvements
 ```
 
-The server will be running at [http://localhost:3000](http://localhost:3000).
+The filename becomes the project slug. For example, `content/projects/cni-plugin.md` is published at `/projects/cni-plugin`.
 
-## Configuration
-
-1. Update the site metadata and social links in `app/config.ts` to set up SEO, feeds, social links, and Open Graph settings.
-2. Update your routes in `app/sitemap.ts` for SEO optimization.
-3. Update your blog posts in the `/content` folder.
-
-For more information about configuration, follow the instructions in the [Getting Started](https://nextfolio-template.vercel.app/blog/getting-started#configuration) post.
-
-## Contributing
-
-Contributions are welcome! To get involved, just push your code to the repo. Whether you're enhancing existing features or adding new ones, your efforts are greatly appreciated!
-
-## Licence
-
-Nextfolio is open-source and released under the MIT License.
+Only projects with `published: true` are listed, routed, included in the sitemap, and used for related content.

@@ -1,34 +1,27 @@
-import Link from "next/link";
 import type { Metadata } from "next";
-import { projects } from "./project-data";
+import { getProjects } from "app/lib/projects";
+import { ProjectBrowser } from "./project-browser";
 
 export const metadata: Metadata = {
   title: "Projects",
-  description: "Nextfolio Projects",
+  description:
+    "Cloud-native and platform engineering projects by Ochuko Whoro.",
 };
 
 export default function Projects() {
+  const projects = getProjects().map(({ content, ...project }) => project);
+
   return (
-    <section>
-      <h1 className="mb-8 text-2xl font-medium">Projects</h1>
-      <div>
-        {projects.map((project, index) => (
-          <Link
-            key={index}
-            href={project.url}
-            className="flex flex-col space-y-1 mb-5 transition-opacity duration-200 hover:opacity-80"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <div className="w-full flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-1 sm:space-y-0 sm:space-x-2">
-              <h2 className="text-black dark:text-white">{project.title}</h2>
-              <p className="text-neutral-600 dark:text-neutral-400">
-                {project.description}
-              </p>
-            </div>
-          </Link>
-        ))}
+    <section className="mx-auto w-full max-w-[760px] space-y-8">
+      <div className="space-y-3">
+        <h1 className="text-3xl font-semibold">Projects</h1>
+        <p className="text-neutral-600 dark:text-neutral-400">
+          Technical case studies around Kubernetes, Linux, networking, AWS,
+          Terraform, Go, and platform operations.
+        </p>
       </div>
+
+      <ProjectBrowser projects={projects} />
     </section>
   );
 }
