@@ -39,16 +39,23 @@ export async function generateMetadata({
     `${metaData.baseUrl}/og?title=${encodeURIComponent(
       project.metadata.title
     )}`;
+  const url = `${metaData.baseUrl}/projects/${project.slug}`;
+  const keywords = [...project.metadata.stack, ...project.metadata.tags];
 
   return {
     title: project.metadata.title,
     description: project.metadata.description,
+    keywords,
+    authors: [{ name: "Ochuko Whoro" }],
+    alternates: {
+      canonical: url,
+    },
     openGraph: {
       title: project.metadata.title,
       description: project.metadata.description,
       type: "article",
       publishedTime: project.metadata.date,
-      url: `${metaData.baseUrl}/projects/${project.slug}`,
+      url,
       images: [{ url: ogImage }],
     },
     twitter: {
@@ -69,6 +76,8 @@ export default async function ProjectPage({ params }: Params) {
   }
 
   const { previous, next } = getAdjacentProjects(slug);
+  const url = `${metaData.baseUrl}/projects/${project.slug}`;
+  const keywords = [...project.metadata.stack, ...project.metadata.tags];
   const graph = getKnowledgeGraph({
     type: "project",
     slug: project.slug,
@@ -83,17 +92,19 @@ export default async function ProjectPage({ params }: Params) {
         dangerouslySetInnerHTML={{
           __html: JSON.stringify({
             "@context": "https://schema.org",
-            "@type": "TechArticle",
-            headline: project.metadata.title,
+            "@type": "CreativeWork",
+            name: project.metadata.title,
             datePublished: project.metadata.date,
             dateModified: project.metadata.date,
             description: project.metadata.description,
-            url: `${metaData.baseUrl}/projects/${project.slug}`,
+            url,
             author: {
               "@type": "Person",
-              name: metaData.name,
+              name: "Ochuko Whoro",
             },
-            keywords: [...project.metadata.tags, ...project.metadata.stack],
+            keywords,
+            programmingLanguage: project.metadata.stack,
+            codeRepository: project.metadata.github || undefined,
           }),
         }}
       />

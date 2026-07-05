@@ -1,11 +1,15 @@
 import type { Metadata } from "next";
 import { getBlogPosts, getBlogTags } from "app/lib/posts";
+import { metaData } from "app/lib/config";
 import { BlogBrowser } from "./blog-browser";
 
 export const metadata: Metadata = {
   title: "Blog",
   description:
     "Writing by Ochuko Whoro on Kubernetes, Go, Linux, AWS, Terraform, cloud native systems, and platform engineering.",
+  alternates: {
+    canonical: `${metaData.baseUrl}/blog`,
+  },
 };
 
 export default function BlogPosts() {

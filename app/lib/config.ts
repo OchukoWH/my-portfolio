@@ -1,10 +1,33 @@
 export const metaData = {
-  baseUrl: "https://ochukowhoro.com",
-  title: "Ochuko Whoro",
+  baseUrl: "https://www.ochukowhoro.com",
+  title: "Ochuko Whoro | Kubernetes & Cloud Native Infrastructure Engineer",
   name: "Ochuko Whoro",
   ogImage: "/opengraph-image.png",
   description:
-    "Cloud-native and platform engineering portfolio focused on Kubernetes, Go, Linux, AWS, Terraform, and reliable developer platforms.",
+    "Kubernetes and AWS certified cloud-native infrastructure engineer building platform tools, Kubernetes infrastructure, networking, storage, virtualization, and automation using Go, Linux, Terraform, and AWS.",
+  keywords: [
+    "Ochuko Whoro",
+    "Cloud Native Engineer",
+    "Platform Engineer",
+    "Infrastructure Engineer",
+    "DevOps Engineer",
+    "Site Reliability Engineer",
+    "SRE",
+    "Kubernetes Engineer",
+    "Golang",
+    "Go",
+    "Linux",
+    "Terraform",
+    "AWS",
+    "Kubernetes",
+    "Cloud Native",
+    "Infrastructure Automation",
+    "Networking",
+    "Storage",
+    "Virtualization",
+    "Observability",
+    "Technical Writing",
+  ],
 };
 
 export const socialLinks = {

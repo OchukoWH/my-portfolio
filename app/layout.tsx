@@ -14,6 +14,10 @@ export const metadata: Metadata = {
     template: `%s | ${metaData.title}`,
   },
   description: metaData.description,
+  keywords: metaData.keywords,
+  alternates: {
+    canonical: metaData.baseUrl,
+  },
   openGraph: {
     images: metaData.ogImage,
     title: metaData.title,
@@ -35,8 +39,10 @@ export const metadata: Metadata = {
     },
   },
   twitter: {
-    title: metaData.name,
+    title: metaData.title,
+    description: metaData.description,
     card: "summary_large_image",
+    images: [metaData.ogImage],
   },
   icons: {
     icon: "/favicon.ico",
@@ -78,6 +84,38 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <main className="flex-auto min-w-0 mt-2 md:mt-6 flex flex-col px-6 sm:px-4 md:px-0 max-w-[920px] w-full">
+            <script
+              type="application/ld+json"
+              suppressHydrationWarning
+              dangerouslySetInnerHTML={{
+                __html: JSON.stringify({
+                  "@context": "https://schema.org",
+                  "@type": "Person",
+                  name: "Ochuko Whoro",
+                  jobTitle: "Cloud Native Infrastructure Engineer",
+                  email: "hello@ochukowhoro.com",
+                  url: metaData.baseUrl,
+                  knowsAbout: [
+                    "Kubernetes",
+                    "Go",
+                    "Linux",
+                    "AWS",
+                    "Terraform",
+                    "Platform Engineering",
+                    "Infrastructure Engineering",
+                    "DevOps",
+                    "Site Reliability Engineering",
+                    "Cloud Native",
+                    "Networking",
+                    "Storage",
+                    "Virtualization",
+                    "Infrastructure Automation",
+                    "Observability",
+                    "Technical Writing",
+                  ],
+                }),
+              }}
+            />
             <Navbar />
             {children}
             <Footer />

@@ -1,11 +1,15 @@
 import type { Metadata } from "next";
 import { getProjects } from "app/lib/projects";
+import { metaData } from "app/lib/config";
 import { ProjectBrowser } from "./project-browser";
 
 export const metadata: Metadata = {
   title: "Projects",
   description:
     "Cloud-native and platform engineering projects by Ochuko Whoro.",
+  alternates: {
+    canonical: `${metaData.baseUrl}/projects`,
+  },
 };
 
 export default function Projects() {

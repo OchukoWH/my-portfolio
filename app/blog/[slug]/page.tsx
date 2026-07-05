@@ -36,16 +36,24 @@ export async function generateMetadata({
   const ogImage = `${metaData.baseUrl}/og?title=${encodeURIComponent(
     post.metadata.title
   )}`;
+  const url = `${metaData.baseUrl}/blog/${post.slug}`;
+  const modifiedTime = post.metadata.modified ?? post.metadata.date;
 
   return {
     title: post.metadata.title,
     description: post.metadata.description,
+    keywords: post.metadata.tags,
+    authors: [{ name: "Ochuko Whoro" }],
+    alternates: {
+      canonical: url,
+    },
     openGraph: {
       title: post.metadata.title,
       description: post.metadata.description,
       type: "article",
       publishedTime: post.metadata.date,
-      url: `${metaData.baseUrl}/blog/${post.slug}`,
+      modifiedTime,
+      url,
       images: [{ url: ogImage }],
     },
     twitter: {
@@ -66,6 +74,8 @@ export default async function Blog({ params }: Params) {
   }
 
   const { previous, next } = getAdjacentPosts(slug);
+  const url = `${metaData.baseUrl}/blog/${post.slug}`;
+  const modifiedDate = post.metadata.modified ?? post.metadata.date;
   const graph = getKnowledgeGraph({
     type: "blog",
     slug: post.slug,
@@ -83,12 +93,17 @@ export default async function Blog({ params }: Params) {
             "@type": "BlogPosting",
             headline: post.metadata.title,
             datePublished: post.metadata.date,
-            dateModified: post.metadata.date,
+            dateModified: modifiedDate,
             description: post.metadata.description,
-            url: `${metaData.baseUrl}/blog/${post.slug}`,
+            mainEntityOfPage: url,
+            url,
             author: {
               "@type": "Person",
-              name: metaData.name,
+              name: "Ochuko Whoro",
+            },
+            publisher: {
+              "@type": "Person",
+              name: "Ochuko Whoro",
             },
             keywords: post.metadata.tags,
           }),

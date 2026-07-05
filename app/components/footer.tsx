@@ -63,7 +63,7 @@ export default function Footer() {
         <small>
           <time>© {YEAR}</time>{" "}
           <a className="no-underline" href="/">
-            {metaData.title}
+            {metaData.name}
           </a>
         </small>
         <SocialLinks />

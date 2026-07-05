@@ -34,10 +34,18 @@ export async function generateMetadata({
   return {
     title,
     description,
+    alternates: {
+      canonical: `${metaData.baseUrl}/blog/tag/${tag.slug}`,
+    },
     openGraph: {
       title,
       description,
       url: `${metaData.baseUrl}/blog/tag/${tag.slug}`,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
     },
   };
 }

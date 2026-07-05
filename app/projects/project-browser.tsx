@@ -21,6 +21,14 @@ ProjectBrowser({ projects }: { projects: ProjectSummary[] }) {
     [projects]
   );
 
+  if (projects.length === 0) {
+    return (
+      <div className="rounded-md border border-neutral-200 p-6 text-neutral-600 dark:border-neutral-800 dark:text-neutral-400">
+        No projects available at the moment.
+      </div>
+    );
+  }
+
   const filteredProjects = projects.filter((project) => {
     const matchesQuery = project.metadata.title
       .toLowerCase()

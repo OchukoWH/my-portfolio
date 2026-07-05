@@ -40,15 +40,22 @@ export function BlogBrowser({
   const [activeTag, setActiveTag] = useState(initialTag);
 
   const filteredPosts = useMemo(() => {
-    return posts
-      .filter((post) => {
-        const matchesTag =
-          activeTag === "All" ||
-          post.metadata.tags.some((tag) => slugifyTag(tag) === activeTag);
+    return posts.filter((post) => {
+      const matchesTag =
+        activeTag === "All" ||
+        post.metadata.tags.some((tag) => slugifyTag(tag) === activeTag);
 
-        return matchesTag;
-      })
+      return matchesTag;
+    });
   }, [activeTag, posts]);
+
+  if (posts.length === 0) {
+    return (
+      <div className="rounded-md border border-neutral-200 p-6 text-neutral-600 dark:border-neutral-800 dark:text-neutral-400">
+        No blog content available at the moment.
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-9">
