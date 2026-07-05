@@ -10,8 +10,8 @@ const navItems = {
 
 export function Navbar() {
   return (
-    <nav className="lg:mb-16 mb-12 py-5">
-      <div className="mx-auto flex w-full max-w-[760px] flex-col md:flex-row md:items-center justify-between">
+    <nav className="sticky top-0 z-50 mb-8 bg-white/95 py-5 backdrop-blur dark:bg-neutral-950/95 lg:mb-10">
+      <div className="mx-auto flex w-full max-w-[768px] flex-col justify-between md:flex-row md:items-center">
         <div className="flex items-center">
           <Link href="/" className="text-2xl font-semibold">
             {metaData.title}

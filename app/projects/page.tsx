@@ -15,10 +15,6 @@ export default function Projects() {
     <section className="mx-auto w-full max-w-[760px] space-y-8">
       <div className="space-y-3">
         <h1 className="text-3xl font-semibold">Projects</h1>
-        <p className="text-neutral-600 dark:text-neutral-400">
-          Technical case studies around Kubernetes, Linux, networking, AWS,
-          Terraform, Go, and platform operations.
-        </p>
       </div>
 
       <ProjectBrowser projects={projects} />

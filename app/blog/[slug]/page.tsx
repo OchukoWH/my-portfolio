@@ -1,16 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { AuthorCard } from "app/components/author-card";
-import { KnowledgeGraph } from "app/components/knowledge-graph";
 import { Markdown } from "app/components/markdown";
 import {
   formatDate,
-  getAdjacentPosts,
   getBlogPost,
   getBlogPosts,
+  getRelatedPosts,
 } from "app/lib/posts";
-import { getKnowledgeGraph } from "app/lib/related";
 import { metaData } from "app/lib/config";
 
 type Params = {
@@ -65,12 +62,7 @@ export default async function Blog({ params }: Params) {
     notFound();
   }
 
-  const { previous, next } = getAdjacentPosts(slug);
-  const graph = getKnowledgeGraph({
-    type: "blog",
-    slug: post.slug,
-    tags: post.metadata.tags,
-  });
+  const relatedPosts = getRelatedPosts(slug, 3);
 
   return (
     <section>
@@ -95,23 +87,24 @@ export default async function Blog({ params }: Params) {
         }}
       />
 
-      <div className="mx-auto grid max-w-[900px] gap-8 lg:grid-cols-[minmax(0,600px)_240px] lg:items-start">
+      <div className="article-shell blog-article-shell">
         <article>
-          <header className="mb-12 space-y-5 border-b border-neutral-200 pb-8 dark:border-neutral-800">
-            <div className="flex flex-wrap gap-x-3 gap-y-1 text-sm text-neutral-500 dark:text-neutral-400">
-              <span>Ochuko Whoro</span>
+          <header className="blog-article-header">
+            <div className="blog-article-meta">
+              <Link
+                href="/"
+                className="hover:text-neutral-950 dark:hover:text-neutral-100"
+              >
+                Ochuko Whoro
+              </Link>
               <time dateTime={post.metadata.date}>
                 {formatDate(post.metadata.date)}
               </time>
-              <span>{post.readingTime}</span>
             </div>
-            <h1 className="title text-4xl font-semibold leading-tight text-neutral-950 dark:text-neutral-50">
+            <h1 className="article-title blog-article-title title">
               {post.metadata.title}
             </h1>
-            <p className="text-lg leading-8 text-neutral-700 dark:text-neutral-300">
-              {post.metadata.description}
-            </p>
-            <div className="flex flex-wrap gap-2">
+            <div className="blog-article-tags">
               {post.metadata.tags.map((tag) => (
                 <span
                   key={tag}
@@ -123,42 +116,39 @@ export default async function Blog({ params }: Params) {
             </div>
           </header>
 
-          <div className="prose prose-lg prose-neutral dark:prose-invert">
+          <div className="article-content blog-article-content">
             <Markdown content={post.content} />
           </div>
-          <AuthorCard />
+          {relatedPosts.length > 0 ? (
+            <section className="mx-auto mt-16 max-w-[768px] border-t border-neutral-200 pt-8 dark:border-neutral-800">
+              <h2 className="text-xl font-medium">
+                More articles you might like
+              </h2>
+              <div className="mt-5 grid gap-4">
+                {relatedPosts.map((relatedPost) => (
+                  <Link
+                    key={relatedPost.slug}
+                    href={`/blog/${relatedPost.slug}`}
+                    className="block rounded-md border border-neutral-200 p-4 transition-colors hover:border-neutral-400 dark:border-neutral-800 dark:hover:border-neutral-600"
+                  >
+                    <h3 className="font-medium text-neutral-950 dark:text-neutral-50">
+                      {relatedPost.metadata.title}
+                    </h3>
+                    <p className="mt-2 text-sm leading-6 text-neutral-600 dark:text-neutral-400">
+                      {relatedPost.metadata.description}
+                    </p>
+                    <div className="mt-3 flex flex-wrap gap-x-3 gap-y-1 text-sm text-neutral-500 dark:text-neutral-400">
+                      <time dateTime={relatedPost.metadata.date}>
+                        {formatDate(relatedPost.metadata.date)}
+                      </time>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </section>
+          ) : null}
         </article>
-        <KnowledgeGraph graph={graph} />
       </div>
-
-      <nav className="mx-auto mt-14 grid max-w-[600px] gap-4 border-t border-neutral-200 pt-8 text-sm dark:border-neutral-800 sm:grid-cols-2">
-        {previous ? (
-          <Link href={`/blog/${previous.slug}`} className="space-y-1">
-            <span className="block text-neutral-500 dark:text-neutral-400">
-              Previous
-            </span>
-            <span className="font-medium">{previous.metadata.title}</span>
-          </Link>
-        ) : (
-          <div className="space-y-1 text-neutral-400 dark:text-neutral-600">
-            <span className="block">Previous</span>
-            <span>No previous article</span>
-          </div>
-        )}
-        {next ? (
-          <Link href={`/blog/${next.slug}`} className="space-y-1 sm:text-right">
-            <span className="block text-neutral-500 dark:text-neutral-400">
-              Next
-            </span>
-            <span className="font-medium">{next.metadata.title}</span>
-          </Link>
-        ) : (
-          <div className="space-y-1 text-neutral-400 dark:text-neutral-600 sm:text-right">
-            <span className="block">Next</span>
-            <span>No next article</span>
-          </div>
-        )}
-      </nav>
     </section>
   );
 }
