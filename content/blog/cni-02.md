@@ -3,7 +3,7 @@ title: "Building a Kubernetes CNI From Scratch (Part 2): Linux Namespaces, cgrou
 description: "Before writing a CNI plugin, we need to understand the Linux primitives that make container networking possible. In this article, we explore Linux namespaces, cgroups, the pause container, and how Kubernetes isolates networking under the hood."
 date: "2026-07-06"
 tags: "Kubernetes, Linux, Networking, CNI, Containerd, Platform Engineering, Cloud Native"
-published: true
+published: false
 ---
 
 In the previous article, we discovered why a freshly installed Kubernetes cluster refuses to become **Ready** without a Container Network Interface (CNI).

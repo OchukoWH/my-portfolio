@@ -3,7 +3,7 @@ title: "Building a Kubernetes CNI From Scratch (Part 3): Writing a Bash CNI Plug
 description: "In this article, we build the first working version of our Kubernetes CNI plugin using Bash. We create a Linux bridge, allocate pod IPs, create veth pairs, connect pods to the host, and return a valid CNI result to containerd."
 date: "2026-07-06"
 tags: "Kubernetes, CNI, Bash, Linux Networking, containerd, Platform Engineering, Cloud Native"
-published: true
+published: false
 ---
 
 In Part 1, we saw why a fresh Kubernetes cluster created with `kubeadm` stays **NotReady** until a CNI plugin is installed.

@@ -3,7 +3,7 @@ title: "Building a Kubernetes CNI From Scratch (Part 1): Why Your Fresh Cluster 
 description: "You installed Kubernetes with kubeadm, joined your worker nodes, but nothing works. In this first article of the series, we explore why Kubernetes cannot function without a Container Network Interface (CNI), how the CNI fits into the pod lifecycle, and what actually happens before your pod ever receives an IP address."
 date: "2026-07-05"
 tags: "Kubernetes, Networking, Linux, CNI, Containerd, Platform Engineering, Cloud Native"
-published: true
+published: false
 ---
 
 Ever wondered how Kubernetes networking actually works?
