@@ -13,16 +13,16 @@ const certifications = [
       "https://ti-user-certificates.s3.amazonaws.com/e0df7fbf-a057-42af-8a1f-590912be5460/3766f965-ef92-406e-9b85-40d52f7aa8ec-ochuko-whoro-d76fbc49-22bb-4da6-804d-c452030d05a4-certificate.pdf",
     previewImage: "/certs/cka.png",
   },
-  {
-    name: "Certified Kubernetes Security Specialist",
-    shortName: "CKS",
-    status: "In progress",
-  },
-  {
-    name: "AWS Certified Solutions Architect",
-    shortName: "AWS SAA",
-    status: "In progress",
-  },
+  // {
+  //   name: "Certified Kubernetes Security Specialist",
+  //   shortName: "CKS",
+  //   status: "In progress",
+  // },
+  // {
+  //   name: "AWS Certified Solutions Architect",
+  //   shortName: "AWS SAA",
+  //   status: "In progress",
+  // },
 ];
 
 export const metadata: Metadata = {

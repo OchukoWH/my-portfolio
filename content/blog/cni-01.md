@@ -3,6 +3,7 @@ title: "Building a Kubernetes CNI From Scratch (Part 1): Why Your Fresh Cluster 
 description: "You installed Kubernetes with kubeadm, joined your worker nodes, but nothing works. In this first article of the series, we explore why Kubernetes cannot function without a Container Network Interface (CNI), how the CNI fits into the pod lifecycle, and what actually happens before your pod ever receives an IP address."
 date: "2026-07-05"
 tags: "Kubernetes, Networking, Linux, CNI, Containerd, Platform Engineering, Cloud Native"
+cover: "/blog/cni-01/image-01.png"
 published: false
 ---
 
@@ -27,6 +28,8 @@ In this series, we're going to answer all of those questions—not by reading di
 Starting with nothing more than a Kubernetes cluster created using `kubeadm`, we'll implement our own networking plugin step by step. Along the way, we'll learn how Kubernetes interacts with the container runtime, how Linux network namespaces make container isolation possible, how virtual Ethernet devices connect pods to the host, and eventually how production CNIs build overlay networks and enforce network policies.
 
 By the end of this series, you'll no longer think of a CNI as a mysterious piece of software you install with a single command. You'll understand exactly what happens from the moment a pod is scheduled until it can communicate with every other pod in the cluster—and you'll have built the networking yourself.
+
+![CNI cluster networking overview](/blog/cni-01/image-01.png)
 
 ## What Happens In Your Fresh Cluster
 
@@ -356,6 +359,8 @@ The runtime therefore invokes the configured CNI plugin to configure networking 
 
 This is where our story really begins.
 
+![Kubernetes pod creation flow to CNI](/blog/cni-01/image-02.png)
+
 ## Linux Namespaces vs Kubernetes Namespaces
 
 Before networking can exist, Linux first needs somewhere to place that networking.
@@ -495,6 +500,8 @@ One end lives inside the pod's network namespace.
 The other remains on the host.
 
 This virtual cable becomes the bridge between the pod and the Linux host.
+
+![Pod network namespace connected with a veth pair](/blog/cni-01/image-03.png)
 
 Once the interfaces exist, the CNI assigns IP addresses, configures routes, and ensures traffic knows how to move between the pod and the host.
 

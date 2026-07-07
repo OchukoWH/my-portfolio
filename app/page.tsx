@@ -4,59 +4,6 @@ import { contactLinks } from "app/lib/config";
 import { formatDate, getBlogPosts } from "app/lib/posts";
 import { getProjects } from "app/lib/projects";
 
-const skillGroups = [
-  {
-    title: "Linux & Systems",
-    skills: ["Ubuntu", "RHEL", "Bash"],
-  },
-  {
-    title: "Infrastructure as Code",
-    skills: ["Terraform", "Ansible"],
-  },
-  {
-    title: "Cloud & Infrastructure",
-    skills: [
-      "AWS",
-  "GCP"
-    ],
-  },
-  {
-    title: "Kubernetes & Containers",
-    skills: [
-      "Kubernetes",
-      "OpenShift",
-      "Helm",
-      "ArgoCD",
-      "Kata Containers",
-      "gVisor",
-    ],
-  },
-  {
-    title: "CI/CD & Automation",
-    skills: ["GitLab CI", "GitHub Actions", "Jenkins"],
-  },
-  {
-    title: "Observability & Monitoring",
-    skills: ["Prometheus", "Grafana", "Loki", "Tempo", "OpenTelemetry"],
-  },
-  {
-    title: "Storage",
-    skills: ["Ceph"],
-  },
-  {
-    title: "Scripting",
-    skills: ["Go", "Python", "TypeScript"],
-  },
-  {
-    title: "Networking",
-    skills: ["Cilium", "Istio"],
-  },
-  {
-    title: "Virtualization",
-    skills: ["KVM", "VMware", "OpenStack"],
-  },
-];
-
 export default function Page() {
   const featuredProjects = getProjects()
     .filter((project) => project.metadata.featured)
@@ -73,16 +20,16 @@ export default function Page() {
       <div className="space-y-7">
         <div className="space-y-4">
           <p className="text-sm font-medium uppercase tracking-[0.16em] text-neutral-500 dark:text-neutral-400">
-            Kubernetes & AWS Certified • Cloud-Native Infrastructure Engineer
+            Kubernetes {/*& AWS*/} Certified • Cloud-Native Infrastructure Engineer
           </p>
           <h1 className="title text-4xl font-semibold leading-tight text-neutral-950 dark:text-neutral-50">
-            Reliable cloud-native platforms and infrastructure.
+           Platforms and Infrastructure.
           </h1>
         </div>
 
         <div className="prose prose-neutral dark:prose-invert text-lg">
           <p>
-            Ochuko Whoro is a Kubernetes and AWS certified cloud-native
+            <span className="font-bold">Ochuko</span> is a Kubernetes {/*and AWS*/} certified cloud-native
             infrastructure engineer focused on Kubernetes, Linux, Go, AWS,
             Terraform, and platform engineering.
           </p>
@@ -92,7 +39,7 @@ export default function Page() {
             developer tooling for cloud-native systems.
           </p>
           <p>
-            I enjoy understanding how production platforms work, from
+            I enjoy learning how production platforms work, from
             Kubernetes networking and storage to infrastructure automation,
             distributed systems, and platform reliability.
           </p>
@@ -127,28 +74,6 @@ export default function Page() {
         </div>
       </div>
 
-      <div className="space-y-4">
-        <h2 className="text-xl font-medium">Skills</h2>
-        <div className="grid gap-5">
-          {skillGroups.map((group) => (
-            <section key={group.title} className="space-y-2">
-              <h3 className="text-sm font-medium uppercase tracking-[0.12em] text-neutral-500 dark:text-neutral-400">
-                {group.title}
-              </h3>
-              <div className="flex flex-wrap gap-2">
-                {group.skills.map((skill) => (
-                  <span
-                    key={skill}
-                    className="rounded-md border border-neutral-200 px-3 py-1 text-sm text-neutral-700 dark:border-neutral-800 dark:text-neutral-300"
-                  >
-                    {skill}
-                  </span>
-                ))}
-              </div>
-            </section>
-          ))}
-        </div>
-      </div>
 
       {featuredProjects.length > 0 ? (
         <div className="space-y-5">
