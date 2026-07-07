@@ -1,11 +1,21 @@
 export const metaData = {
-  baseUrl: "https://ochukowhoro.com",
+  baseUrl: "https://www.ochukowhoro.com",
   title: "Ochuko Whoro",
   name: "Ochuko Whoro",
-  ogImage: "/opengraph-image.png",
+  ogImage: "/og/home.png",
+  defaultBlogOgImage: "/og/default-blog.png",
+  defaultProjectOgImage: "/og/default-project.png",
   description:
     "Cloud-native and platform engineering portfolio focused on Kubernetes, Go, Linux, AWS, Terraform, and reliable developer platforms.",
 };
+
+export function absoluteUrl(pathOrUrl: string) {
+  if (/^https?:\/\//.test(pathOrUrl)) {
+    return pathOrUrl;
+  }
+
+  return new URL(pathOrUrl, metaData.baseUrl).toString();
+}
 
 export const socialLinks = {
   twitter: "",

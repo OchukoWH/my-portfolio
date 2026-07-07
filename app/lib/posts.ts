@@ -5,6 +5,7 @@ export type BlogPostMetadata = {
   title: string;
   description: string;
   date: string;
+  cover: string;
   tags: string[];
   published: boolean;
 };
@@ -69,6 +70,7 @@ function parseFrontmatter(fileContent: string) {
     title: rawMetadata.title ?? "Untitled",
     description: rawMetadata.description ?? "",
     date: rawMetadata.date ?? new Date().toISOString().split("T")[0],
+    cover: rawMetadata.cover ?? "",
     tags: parseTags(rawMetadata.tags),
     published: parseBoolean(rawMetadata.published),
   };

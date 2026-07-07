@@ -9,7 +9,7 @@ import {
   getProjects,
   getRelatedProjects,
 } from "app/lib/projects";
-import { metaData } from "app/lib/config";
+import { absoluteUrl, metaData } from "app/lib/config";
 
 type Params = {
   params: Promise<{ slug: string }>;
@@ -31,11 +31,9 @@ export async function generateMetadata({
     return;
   }
 
-  const ogImage =
-    project.metadata.cover ||
-    `${metaData.baseUrl}/og?title=${encodeURIComponent(
-      project.metadata.title
-    )}`;
+  const ogImage = absoluteUrl(
+    project.metadata.cover || metaData.defaultProjectOgImage
+  );
 
   return {
     title: project.metadata.title,
@@ -46,7 +44,14 @@ export async function generateMetadata({
       type: "article",
       publishedTime: project.metadata.date,
       url: `${metaData.baseUrl}/projects/${project.slug}`,
-      images: [{ url: ogImage }],
+      images: [
+        {
+          url: ogImage,
+          width: 1200,
+          height: 630,
+          alt: project.metadata.title,
+        },
+      ],
     },
     twitter: {
       card: "summary_large_image",
@@ -66,6 +71,9 @@ export default async function ProjectPage({ params }: Params) {
   }
 
   const relatedProjects = getRelatedProjects(slug, 3);
+  const ogImage = absoluteUrl(
+    project.metadata.cover || metaData.defaultProjectOgImage
+  );
 
   return (
     <section>
@@ -75,12 +83,13 @@ export default async function ProjectPage({ params }: Params) {
         dangerouslySetInnerHTML={{
           __html: JSON.stringify({
             "@context": "https://schema.org",
-            "@type": "TechArticle",
+            "@type": "CreativeWork",
             headline: project.metadata.title,
             datePublished: project.metadata.date,
             dateModified: project.metadata.date,
             description: project.metadata.description,
             url: `${metaData.baseUrl}/projects/${project.slug}`,
+            image: ogImage,
             author: {
               "@type": "Person",
               name: metaData.name,

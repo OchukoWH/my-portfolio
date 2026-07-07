@@ -8,7 +8,7 @@ import {
   getBlogPosts,
   getRelatedPosts,
 } from "app/lib/posts";
-import { metaData } from "app/lib/config";
+import { absoluteUrl, metaData } from "app/lib/config";
 
 type Params = {
   params: Promise<{ slug: string }>;
@@ -30,9 +30,9 @@ export async function generateMetadata({
     return;
   }
 
-  const ogImage = `${metaData.baseUrl}/og?title=${encodeURIComponent(
-    post.metadata.title
-  )}`;
+  const ogImage = absoluteUrl(
+    post.metadata.cover || metaData.defaultBlogOgImage
+  );
 
   return {
     title: post.metadata.title,
@@ -43,7 +43,14 @@ export async function generateMetadata({
       type: "article",
       publishedTime: post.metadata.date,
       url: `${metaData.baseUrl}/blog/${post.slug}`,
-      images: [{ url: ogImage }],
+      images: [
+        {
+          url: ogImage,
+          width: 1200,
+          height: 630,
+          alt: post.metadata.title,
+        },
+      ],
     },
     twitter: {
       card: "summary_large_image",
@@ -63,6 +70,9 @@ export default async function Blog({ params }: Params) {
   }
 
   const relatedPosts = getRelatedPosts(slug, 3);
+  const ogImage = absoluteUrl(
+    post.metadata.cover || metaData.defaultBlogOgImage
+  );
 
   return (
     <section>
@@ -78,6 +88,7 @@ export default async function Blog({ params }: Params) {
             dateModified: post.metadata.date,
             description: post.metadata.description,
             url: `${metaData.baseUrl}/blog/${post.slug}`,
+            image: ogImage,
             author: {
               "@type": "Person",
               name: metaData.name,

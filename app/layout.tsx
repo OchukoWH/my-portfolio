@@ -6,7 +6,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Spectral } from "next/font/google";
 import Footer from "./components/footer";
 import { ThemeProvider } from "./components/theme-switch";
-import { metaData } from "./lib/config";
+import { absoluteUrl, metaData } from "./lib/config";
 
 const spectral = Spectral({
   subsets: ["latin"],
@@ -22,7 +22,14 @@ export const metadata: Metadata = {
   },
   description: metaData.description,
   openGraph: {
-    images: metaData.ogImage,
+    images: [
+      {
+        url: absoluteUrl(metaData.ogImage),
+        width: 1200,
+        height: 630,
+        alt: `${metaData.title} social preview`,
+      },
+    ],
     title: metaData.title,
     description: metaData.description,
     url: metaData.baseUrl,
@@ -43,7 +50,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     title: metaData.name,
+    description: metaData.description,
     card: "summary_large_image",
+    images: [absoluteUrl(metaData.ogImage)],
   },
   icons: {
     icon: "/favicon.ico",
