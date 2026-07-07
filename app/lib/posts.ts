@@ -6,6 +6,7 @@ export type BlogPostMetadata = {
   description: string;
   date: string;
   modified?: string;
+  cover: string;
   tags: string[];
   published: boolean;
 };
@@ -13,7 +14,6 @@ export type BlogPostMetadata = {
 export type BlogPost = {
   slug: string;
   content: string;
-  readingTime: string;
   metadata: BlogPostMetadata;
 };
 
@@ -72,6 +72,7 @@ function parseFrontmatter(fileContent: string) {
     description: rawMetadata.description ?? "",
     date: rawMetadata.date ?? new Date().toISOString().split("T")[0],
     modified: rawMetadata.modified ?? rawMetadata.updated,
+    cover: rawMetadata.cover ?? "",
     tags: parseTags(rawMetadata.tags),
     published: parseBoolean(rawMetadata.published),
   };
@@ -85,13 +86,6 @@ function getMarkdownFiles(dir: string) {
   }
 
   return fs.readdirSync(dir).filter((file) => path.extname(file) === ".md");
-}
-
-function getReadingTime(content: string) {
-  const words = content.trim().split(/\s+/).filter(Boolean).length;
-  const minutes = Math.max(1, Math.ceil(words / 220));
-
-  return `${minutes} min read`;
 }
 
 export function slugifyTag(tag: string) {
@@ -112,7 +106,6 @@ export function getBlogPosts({ includeDrafts = false } = {}) {
       return {
         metadata,
         content,
-        readingTime: getReadingTime(content),
         slug: path.basename(file, ".md"),
       };
     })
@@ -173,7 +166,7 @@ export function getAdjacentPosts(slug: string) {
   };
 }
 
-export function getRelatedPosts(slug: string, limit = 2) {
+export function getRelatedPosts(slug: string, limit = 3) {
   const post = getBlogPost(slug);
 
   if (!post) {
@@ -191,7 +184,6 @@ export function getRelatedPosts(slug: string, limit = 2) {
 
       return { candidate, score };
     })
-    .filter(({ score }) => score > 0)
     .sort((a, b) => {
       if (b.score !== a.score) {
         return b.score - a.score;

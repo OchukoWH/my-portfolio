@@ -81,7 +81,7 @@ ProjectBrowser({ projects }: { projects: ProjectSummary[] }) {
                 </span>
               </div>
 
-              <p className="text-neutral-700 dark:text-neutral-300">
+              <p className="text-sm leading-6 text-neutral-600 dark:text-neutral-400">
                 {project.metadata.description}
               </p>
 

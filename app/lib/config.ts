@@ -2,7 +2,9 @@ export const metaData = {
   baseUrl: "https://www.ochukowhoro.com",
   title: "Ochuko Whoro | Kubernetes & Cloud Native Infrastructure Engineer",
   name: "Ochuko Whoro",
-  ogImage: "/opengraph-image.png",
+  ogImage: "/og/home.png",
+  defaultBlogOgImage: "/og/default-blog.png",
+  defaultProjectOgImage: "/og/default-project.png",
   description:
     "Kubernetes and AWS certified cloud-native infrastructure engineer building platform tools, Kubernetes infrastructure, networking, storage, virtualization, and automation using Go, Linux, Terraform, and AWS.",
   keywords: [
@@ -29,6 +31,14 @@ export const metaData = {
     "Technical Writing",
   ],
 };
+
+export function absoluteUrl(pathOrUrl: string) {
+  if (/^https?:\/\//.test(pathOrUrl)) {
+    return pathOrUrl;
+  }
+
+  return new URL(pathOrUrl, metaData.baseUrl).toString();
+}
 
 export const socialLinks = {
   twitter: "",

@@ -94,7 +94,7 @@ export function BlogBrowser({
                 <h2 className="text-2xl font-semibold leading-snug text-neutral-950 transition-opacity hover:opacity-80 dark:text-neutral-50">
                   {post.metadata.title}
                 </h2>
-                <p className="leading-7 text-neutral-700 dark:text-neutral-300">
+                <p className="text-sm leading-6 text-neutral-600 dark:text-neutral-400">
                   {post.metadata.description}
                 </p>
               </Link>

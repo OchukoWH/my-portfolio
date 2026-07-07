@@ -69,7 +69,7 @@ export default function Page() {
   const featuredPosts = getBlogPosts().slice(0, 3);
 
   return (
-    <section className="mx-auto w-full max-w-[720px] space-y-16">
+    <section className="mx-auto w-full max-w-[768px] space-y-16">
       <div className="space-y-7">
         <div className="space-y-4">
           <p className="text-sm font-medium uppercase tracking-[0.16em] text-neutral-500 dark:text-neutral-400">
@@ -241,7 +241,6 @@ export default function Page() {
                   <time dateTime={post.metadata.date}>
                     {formatDate(post.metadata.date)}
                   </time>
-                  <span>{post.readingTime}</span>
                 </div>
                 <div className="flex flex-wrap gap-2 pt-3">
                   {post.metadata.tags.slice(0, 4).map((tag) => (

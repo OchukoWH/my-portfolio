@@ -141,7 +141,7 @@ export function getAdjacentProjects(slug: string) {
   };
 }
 
-export function getRelatedProjects(slug: string, limit = 2) {
+export function getRelatedProjects(slug: string, limit = 3) {
   const project = getProject(slug);
 
   if (!project) {
@@ -159,7 +159,6 @@ export function getRelatedProjects(slug: string, limit = 2) {
 
       return { candidate, score };
     })
-    .filter(({ score }) => score > 0)
     .sort((a, b) => {
       if (b.score !== a.score) {
         return b.score - a.score;

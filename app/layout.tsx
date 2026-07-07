@@ -3,9 +3,16 @@ import type { Metadata } from "next";
 import { Navbar } from "./components/nav";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { Spectral } from "next/font/google";
 import Footer from "./components/footer";
 import { ThemeProvider } from "./components/theme-switch";
-import { metaData } from "./lib/config";
+import { absoluteUrl, metaData } from "./lib/config";
+
+const spectral = Spectral({
+  subsets: ["latin"],
+  weight: ["400"],
+  variable: "--font-spectral",
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL(metaData.baseUrl),
@@ -19,7 +26,14 @@ export const metadata: Metadata = {
     canonical: metaData.baseUrl,
   },
   openGraph: {
-    images: metaData.ogImage,
+    images: [
+      {
+        url: absoluteUrl(metaData.ogImage),
+        width: 1200,
+        height: 630,
+        alt: `${metaData.title} social preview`,
+      },
+    ],
     title: metaData.title,
     description: metaData.description,
     url: metaData.baseUrl,
@@ -42,7 +56,7 @@ export const metadata: Metadata = {
     title: metaData.title,
     description: metaData.description,
     card: "summary_large_image",
-    images: [metaData.ogImage],
+    images: [absoluteUrl(metaData.ogImage)],
   },
   icons: {
     icon: "/favicon.ico",
@@ -76,14 +90,16 @@ export default function RootLayout({
           title="JSON Feed"
         />
       </head>
-      <body className="antialiased flex flex-col items-center justify-center mx-auto mt-2 lg:mt-8 mb-12">
+      <body
+        className={`${spectral.variable} antialiased mx-auto flex flex-col items-center justify-center pb-24`}
+      >
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange
         >
-          <main className="flex-auto min-w-0 mt-2 md:mt-6 flex flex-col px-6 sm:px-4 md:px-0 max-w-[920px] w-full">
+          <main className="mt-0 flex w-full max-w-[768px] flex-auto flex-col px-6 sm:px-4 md:mt-3 md:px-0">
             <script
               type="application/ld+json"
               suppressHydrationWarning
@@ -91,7 +107,7 @@ export default function RootLayout({
                 __html: JSON.stringify({
                   "@context": "https://schema.org",
                   "@type": "Person",
-                  name: "Ochuko Whoro",
+                  name: metaData.name,
                   jobTitle: "Cloud Native Infrastructure Engineer",
                   email: "hello@ochukowhoro.com",
                   url: metaData.baseUrl,

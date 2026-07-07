@@ -2,17 +2,14 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { FaGithub } from "react-icons/fa6";
-import { AuthorCard } from "app/components/author-card";
-import { KnowledgeGraph } from "app/components/knowledge-graph";
 import { Markdown } from "app/components/markdown";
 import { formatDate } from "app/lib/posts";
 import {
-  getAdjacentProjects,
   getProject,
   getProjects,
+  getRelatedProjects,
 } from "app/lib/projects";
-import { getKnowledgeGraph } from "app/lib/related";
-import { metaData } from "app/lib/config";
+import { absoluteUrl, metaData } from "app/lib/config";
 
 type Params = {
   params: Promise<{ slug: string }>;
@@ -34,11 +31,9 @@ export async function generateMetadata({
     return;
   }
 
-  const ogImage =
-    project.metadata.cover ||
-    `${metaData.baseUrl}/og?title=${encodeURIComponent(
-      project.metadata.title
-    )}`;
+  const ogImage = absoluteUrl(
+    project.metadata.cover || metaData.defaultProjectOgImage
+  );
   const url = `${metaData.baseUrl}/projects/${project.slug}`;
   const keywords = [...project.metadata.stack, ...project.metadata.tags];
 
@@ -46,7 +41,7 @@ export async function generateMetadata({
     title: project.metadata.title,
     description: project.metadata.description,
     keywords,
-    authors: [{ name: "Ochuko Whoro" }],
+    authors: [{ name: metaData.name }],
     alternates: {
       canonical: url,
     },
@@ -56,7 +51,14 @@ export async function generateMetadata({
       type: "article",
       publishedTime: project.metadata.date,
       url,
-      images: [{ url: ogImage }],
+      images: [
+        {
+          url: ogImage,
+          width: 1200,
+          height: 630,
+          alt: project.metadata.title,
+        },
+      ],
     },
     twitter: {
       card: "summary_large_image",
@@ -75,14 +77,12 @@ export default async function ProjectPage({ params }: Params) {
     notFound();
   }
 
-  const { previous, next } = getAdjacentProjects(slug);
+  const relatedProjects = getRelatedProjects(slug, 3);
   const url = `${metaData.baseUrl}/projects/${project.slug}`;
   const keywords = [...project.metadata.stack, ...project.metadata.tags];
-  const graph = getKnowledgeGraph({
-    type: "project",
-    slug: project.slug,
-    tags: project.metadata.tags,
-  });
+  const ogImage = absoluteUrl(
+    project.metadata.cover || metaData.defaultProjectOgImage
+  );
 
   return (
     <section>
@@ -94,13 +94,15 @@ export default async function ProjectPage({ params }: Params) {
             "@context": "https://schema.org",
             "@type": "CreativeWork",
             name: project.metadata.title,
+            headline: project.metadata.title,
             datePublished: project.metadata.date,
             dateModified: project.metadata.date,
             description: project.metadata.description,
             url,
+            image: ogImage,
             author: {
               "@type": "Person",
-              name: "Ochuko Whoro",
+              name: metaData.name,
             },
             keywords,
             programmingLanguage: project.metadata.stack,
@@ -109,7 +111,7 @@ export default async function ProjectPage({ params }: Params) {
         }}
       />
 
-      <div className="mx-auto grid max-w-[900px] gap-8 lg:grid-cols-[minmax(0,600px)_240px] lg:items-start">
+      <div className="article-shell">
         <article>
           <Link
             href="/projects"
@@ -127,12 +129,9 @@ export default async function ProjectPage({ params }: Params) {
               {project.metadata.featured ? <span>Featured</span> : null}
             </div>
 
-            <h1 className="title text-4xl font-semibold leading-tight text-neutral-950 dark:text-neutral-50">
+            <h1 className="article-title title">
               {project.metadata.title}
             </h1>
-            <p className="text-lg leading-8 text-neutral-700 dark:text-neutral-300">
-              {project.metadata.description}
-            </p>
 
             <div className="flex flex-wrap gap-2">
               {project.metadata.stack.map((tech) => (
@@ -170,37 +169,40 @@ export default async function ProjectPage({ params }: Params) {
             </div>
           </header>
 
-          <div className="prose prose-lg prose-neutral dark:prose-invert">
+          <div className="article-content">
             <Markdown content={project.content} />
           </div>
-          <AuthorCard />
+          {relatedProjects.length > 0 ? (
+            <section className="mt-14 border-t border-neutral-200 pt-8 dark:border-neutral-800">
+              <h2 className="text-xl font-medium">
+                More projects you might like
+              </h2>
+              <div className="mt-5 grid gap-4">
+                {relatedProjects.map((relatedProject) => (
+                  <Link
+                    key={relatedProject.slug}
+                    href={`/projects/${relatedProject.slug}`}
+                    className="block rounded-md border border-neutral-200 p-4 transition-colors hover:border-neutral-400 dark:border-neutral-800 dark:hover:border-neutral-600"
+                  >
+                    <h3 className="font-medium text-neutral-950 dark:text-neutral-50">
+                      {relatedProject.metadata.title}
+                    </h3>
+                    <p className="mt-2 text-sm leading-6 text-neutral-600 dark:text-neutral-400">
+                      {relatedProject.metadata.description}
+                    </p>
+                    <div className="mt-3 flex flex-wrap gap-x-3 gap-y-1 text-sm text-neutral-500 dark:text-neutral-400">
+                      <time dateTime={relatedProject.metadata.date}>
+                        {formatDate(relatedProject.metadata.date)}
+                      </time>
+                      <span>{relatedProject.metadata.status}</span>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </section>
+          ) : null}
         </article>
-        <KnowledgeGraph graph={graph} />
       </div>
-
-      <nav className="mx-auto mt-14 grid max-w-[600px] gap-4 border-t border-neutral-200 pt-8 text-sm dark:border-neutral-800 sm:grid-cols-2">
-        {previous ? (
-          <Link href={`/projects/${previous.slug}`} className="space-y-1">
-            <span className="block text-neutral-500 dark:text-neutral-400">
-              Previous project
-            </span>
-            <span className="font-medium">{previous.metadata.title}</span>
-          </Link>
-        ) : (
-          <span />
-        )}
-        {next ? (
-          <Link
-            href={`/projects/${next.slug}`}
-            className="space-y-1 sm:text-right"
-          >
-            <span className="block text-neutral-500 dark:text-neutral-400">
-              Next project
-            </span>
-            <span className="font-medium">{next.metadata.title}</span>
-          </Link>
-        ) : null}
-      </nav>
     </section>
   );
 }

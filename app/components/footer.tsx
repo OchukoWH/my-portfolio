@@ -27,7 +27,7 @@ function SocialLink({ href, icon: Icon }) {
 
 function SocialLinks() {
   return (
-    <div className="flex flex-wrap items-center gap-3.5 transition-opacity duration-300 hover:opacity-90">
+    <div className="flex flex-col items-start gap-2.5 transition-opacity duration-300 hover:opacity-90 sm:flex-row sm:flex-wrap sm:items-center sm:gap-3.5">
       <SocialLink href={socialLinks.twitter} icon={FaXTwitter} />
       <SocialLink href={socialLinks.instagram} icon={FaInstagram} />
       <a className="inline-flex items-center gap-1" href={socialLinks.email}>
@@ -58,8 +58,8 @@ function SocialLinks() {
 
 export default function Footer() {
   return (
-    <footer className="lg:mt-24 mt-16 text-sm text-[#1C1C1C] dark:text-[#D4D4D4]">
-      <div className="mx-auto flex w-full max-w-[760px] flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+    <footer className="fixed inset-x-0 bottom-0 z-50 bg-white/95 px-6 py-4 text-sm text-[#1C1C1C] backdrop-blur dark:bg-neutral-950/95 dark:text-[#D4D4D4] sm:px-4 md:px-0">
+      <div className="mx-auto flex w-full max-w-[768px] flex-col gap-4 border-t border-neutral-200/60 pt-4 dark:border-neutral-800/60 sm:flex-row sm:items-center sm:justify-between">
         <small>
           <time>© {YEAR}</time>{" "}
           <a className="no-underline" href="/">

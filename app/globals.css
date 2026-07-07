@@ -10,6 +10,7 @@
 
 /* Light theme colors */
 :root {
+  --border: #e5e5e5;
   --sh-class: #2d5e9d;
   --sh-identifier: #354150;
   --sh-sign: #8996a3;
@@ -24,6 +25,7 @@
 /* Dark theme colors */
 .dark {
   background-color: #111010;
+  --border: #262626;
   --sh-class: #4c97f8;
   --sh-identifier: white;
   --sh-sign: #8996a3;
@@ -102,11 +104,28 @@ html {
 }
 
 .prose h2,
-h3,
-h4,
-h5,
-h6 {
+.prose h3,
+.prose h4,
+.prose h5,
+.prose h6 {
   @apply font-medium;
+}
+
+.prose h2 {
+  margin-top: 1.4em;
+  margin-bottom: 0.55em;
+}
+
+.prose h3 {
+  margin-top: 1.1em;
+  margin-bottom: 0.45em;
+}
+
+.prose h4,
+.prose h5,
+.prose h6 {
+  margin-top: 1em;
+  margin-bottom: 0.4em;
 }
 
 .prose strong {
@@ -158,4 +177,316 @@ table {
 
 .title {
   text-wrap: balance;
+}
+
+.article-shell {
+  width: 100%;
+  max-width: 728px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.blog-article-shell {
+  max-width: 768px;
+  padding-top: 40px;
+  padding-bottom: 96px;
+}
+
+.blog-article-header {
+  max-width: 768px;
+  margin: 0 auto;
+}
+
+.blog-article-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  color: #737373;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+  margin-bottom: 16px;
+}
+
+.article-title {
+  max-width: 728px;
+  color: #292929;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system,
+    BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: clamp(2.2rem, 4.2vw, 2.7rem);
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  line-height: 1.22;
+  margin-bottom: 28px;
+}
+
+.blog-article-title {
+  margin-top: 0;
+}
+
+.blog-article-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+  margin-bottom: 52px;
+}
+
+.dark .article-title {
+  color: #f5f5f5;
+}
+
+.article-content {
+  color: #363737;
+  font-family: var(--font-spectral), Georgia, Cambria, "Times New Roman", Times,
+    serif;
+  font-size: 19px;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 1.9;
+  text-align: left;
+  text-wrap: pretty;
+}
+
+.blog-article-content {
+  max-width: 768px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.dark .article-content {
+  color: #e5e5e5;
+}
+
+.article-content p {
+  color: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  letter-spacing: inherit;
+  line-height: inherit;
+  margin: 0 0 1.8rem;
+  text-align: left;
+  text-wrap: pretty;
+}
+
+.article-content h2,
+.article-content h3,
+.article-content h4,
+.article-content h5,
+.article-content h6 {
+  color: #111111;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system,
+    BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.dark .article-content h2,
+.dark .article-content h3,
+.dark .article-content h4,
+.dark .article-content h5,
+.dark .article-content h6 {
+  color: #f5f5f5;
+}
+
+.article-content h2 {
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1.25;
+  margin: 56px 0 20px;
+}
+
+.article-content h3 {
+  font-size: 22px;
+  font-weight: 650;
+  line-height: 1.3;
+  margin: 40px 0 16px;
+}
+
+.article-content h4,
+.article-content h5,
+.article-content h6 {
+  font-size: 20px;
+  font-weight: 650;
+  line-height: 1.35;
+  margin: 30px 0 12px;
+}
+
+.article-content ul,
+.article-content ol {
+  color: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  letter-spacing: inherit;
+  line-height: inherit;
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+  padding-left: 1.35rem;
+}
+
+.article-content ul {
+  list-style: disc;
+}
+
+.article-content ol {
+  list-style: decimal;
+}
+
+.article-content li {
+  line-height: inherit;
+  margin-bottom: 0.45rem;
+}
+
+.article-content li > p {
+  margin-bottom: 0.45rem;
+}
+
+.article-content li::marker {
+  color: #666666;
+  font-size: 0.85em;
+  font-weight: 400;
+}
+
+.article-content pre {
+  max-width: 100%;
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 18px;
+  margin: 30px 0;
+  background: #f7f7f7;
+  font-size: 13.5px;
+  line-height: 1.7;
+}
+
+.dark .article-content pre {
+  background: #181818;
+}
+
+.article-content code {
+  border: 1px solid #e7e7e7;
+  border-radius: 4px;
+  background: #f5f5f5;
+  color: inherit;
+  padding: 0.08em 0.35em;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    monospace;
+  font-size: 0.9em;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  line-height: 1;
+  vertical-align: baseline;
+  white-space: nowrap;
+}
+
+.dark .article-content code {
+  background: #181818;
+}
+
+.article-content pre code {
+  border: 0;
+  background: transparent;
+  padding: 0;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+.article-content blockquote {
+  border-left: 3px solid currentColor;
+  color: #6b7280;
+  font-style: italic;
+  margin: 32px 0;
+  padding-left: 18px;
+}
+
+.dark .article-content blockquote {
+  color: #a3a3a3;
+}
+
+.article-content blockquote p {
+  margin-bottom: 0;
+}
+
+.article-content img {
+  width: 100%;
+  border-radius: 12px;
+  margin: 32px 0;
+}
+
+.article-content table {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  border-collapse: collapse;
+  white-space: normal;
+  margin: 28px 0;
+  color: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  letter-spacing: inherit;
+  line-height: inherit;
+}
+
+.article-content th,
+.article-content td {
+  border: 1px solid var(--border);
+  padding: 10px 12px;
+  text-align: left;
+}
+
+.article-content th {
+  font-family: inherit;
+  font-weight: 600;
+}
+
+.article-content a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: #a3a3a3;
+  text-decoration-thickness: 0.08em;
+  text-underline-offset: 0.16em;
+}
+
+.article-content a:hover {
+  text-decoration-color: currentColor;
+}
+
+.article-content .anchor {
+  position: absolute;
+  visibility: hidden;
+  margin-left: -1em;
+  padding-right: 0.5em;
+}
+
+.article-content *:hover > .anchor {
+  visibility: visible;
+}
+
+.article-content .anchor::after {
+  content: "#";
+  color: #a3a3a3;
+}
+
+.article-content .callout {
+  margin: 32px 0;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: #fafafa;
+  color: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  padding: 16px 18px;
+}
+
+.dark .article-content .callout {
+  background: #181818;
+}
+
+@media (min-width: 768px) {
+  .blog-article-shell {
+    padding-top: 72px;
+  }
 }
