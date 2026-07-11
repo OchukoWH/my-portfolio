@@ -5,7 +5,7 @@ date: "2026-07-11"
 tags: "Kubernetes, CNI, NetworkPolicy, iptables, Linux Networking, Security, Platform Engineering, Cloud Native"
 cover: "/blog/cni-01/image-01.png"
 published: false
-order: 5
+order: 8
 series: "Building a Kubernetes CNI From Scratch"
 seriesOrder: 5
 ---

@@ -4,8 +4,8 @@ description: "In this article, we build the first working version of our Kuberne
 date: "2026-07-06"
 tags: "Kubernetes, CNI, Bash, Linux Networking, containerd, Platform Engineering, Cloud Native"
 cover: "/blog/cni-01/image-01.png"
-published: false
-order: 3
+published: true
+order: 6
 series: "Building a Kubernetes CNI From Scratch"
 seriesOrder: 3
 ---

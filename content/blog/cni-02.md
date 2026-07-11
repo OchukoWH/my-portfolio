@@ -5,7 +5,7 @@ date: "2026-07-06"
 tags: "Kubernetes, Linux, Networking, CNI, Containerd, Platform Engineering, Cloud Native"
 cover: "/blog/cni-01/image-01.png"
 published: true
-order: 2
+order: 5
 series: "Building a Kubernetes CNI From Scratch"
 seriesOrder: 2
 ---

@@ -5,7 +5,7 @@ date: "2026-07-06"
 tags: "Kubernetes, CNI, Linux Networking, Routing, Platform Engineering, Cloud Native"
 cover: "/blog/cni-01/image-01.png"
 published: false
-order: 4
+order: 7
 series: "Building a Kubernetes CNI From Scratch"
 seriesOrder: 4
 ---
