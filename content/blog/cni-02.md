@@ -3,10 +3,14 @@ title: "Building a Kubernetes CNI From Scratch (Part 2): Linux Namespaces, cgrou
 description: "Before writing a CNI plugin, we need to understand the Linux primitives that make container networking possible. In this article, we explore Linux namespaces, cgroups, the pause container, and how Kubernetes isolates networking under the hood."
 date: "2026-07-06"
 tags: "Kubernetes, Linux, Networking, CNI, Containerd, Platform Engineering, Cloud Native"
-published: false
+cover: "/blog/cni-01/image-01.png"
+published: true
+order: 2
+series: "Building a Kubernetes CNI From Scratch"
+seriesOrder: 2
 ---
 
-In the previous article, we discovered why a freshly installed Kubernetes cluster refuses to become **Ready** without a Container Network Interface (CNI).
+In [Part 1](/blog/cni-01), we discovered why a freshly installed Kubernetes cluster refuses to become **Ready** without a Container Network Interface (CNI).
 
 We followed the journey of a Pod from the API Server all the way to the container runtime, where the runtime eventually invoked a CNI plugin to configure networking.
 
@@ -44,7 +48,7 @@ We'll answer questions like:
 
 By the end of this article, you'll understand the environment in which our CNI will eventually operate.
 
-In Part 3, we'll build the actual networking manually using bridges, virtual Ethernet (veth) pairs and routing tables before finally automating everything inside our own CNI plugin.
+In [Part 3](/blog/cni-03), we'll build the actual networking manually using bridges, virtual Ethernet (veth) pairs and routing tables before finally automating everything inside our own CNI plugin.
 
 ## **Containers Are Just Linux**
 
@@ -814,7 +818,7 @@ They simply reuse the existing Linux kernel while giving each workload its own i
 
 Let's connect everything we've learned so far.
 
-Back in Part 1, we stopped at the moment where the container runtime invoked the CNI plugin.
+Back in [Part 1](/blog/cni-01), we stopped at the moment where the container runtime invoked the CNI plugin.
 
 We now know a lot more about what happens before our CNI even starts executing.
 
@@ -897,4 +901,4 @@ In the next article, we'll finally start building networking ourselves.
 
 We'll create a Linux bridge, build virtual Ethernet (veth) pairs, connect them to our network namespace, assign IP addresses, configure routing tables, and eventually give our isolated namespace access to both the host and the outside world.
 
-By the end of Part 3, we'll have manually recreated most of what a real CNI plugin does before we automate everything in Go.
+By the end of [Part 3](/blog/cni-03), we'll have manually recreated most of what a real CNI plugin does before we automate everything in Go.

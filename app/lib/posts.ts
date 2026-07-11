@@ -9,6 +9,9 @@ export type BlogPostMetadata = {
   cover: string;
   tags: string[];
   published: boolean;
+  order?: number;
+  series?: string;
+  seriesOrder?: number;
 };
 
 export type BlogPost = {
@@ -23,10 +26,33 @@ export type BlogTag = {
   count: number;
 };
 
+export type BlogSeries = {
+  title: string;
+  slug: string;
+  posts: BlogPost[];
+};
+
+export type BlogSeriesContext = {
+  series: BlogSeries;
+  currentIndex: number;
+  previous?: BlogPost;
+  next?: BlogPost;
+};
+
 const BLOG_DIR = path.join(process.cwd(), "content", "blog");
 
 function parseBoolean(value: string | undefined) {
   return value?.toLowerCase() === "true";
+}
+
+function parseNumber(value: string | undefined) {
+  if (!value) {
+    return undefined;
+  }
+
+  const parsed = Number(value);
+
+  return Number.isFinite(parsed) ? parsed : undefined;
 }
 
 function parseTags(value: string | undefined) {
@@ -75,6 +101,9 @@ function parseFrontmatter(fileContent: string) {
     cover: rawMetadata.cover ?? "",
     tags: parseTags(rawMetadata.tags),
     published: parseBoolean(rawMetadata.published),
+    order: parseNumber(rawMetadata.order),
+    series: rawMetadata.series,
+    seriesOrder: parseNumber(rawMetadata.seriesOrder),
   };
 
   return { metadata, content };
@@ -89,7 +118,11 @@ function getMarkdownFiles(dir: string) {
 }
 
 export function slugifyTag(tag: string) {
-  return tag
+  return slugifyValue(tag);
+}
+
+export function slugifyValue(value: string) {
+  return value
     .toLowerCase()
     .trim()
     .replace(/[^\w\s-]/g, "")
@@ -110,15 +143,137 @@ export function getBlogPosts({ includeDrafts = false } = {}) {
       };
     })
     .filter((post) => includeDrafts || post.metadata.published)
-    .sort(
-      (a, b) =>
+    .sort((a, b) => {
+      const orderA =
+        a.metadata.order ?? a.metadata.seriesOrder ?? Number.MAX_SAFE_INTEGER;
+      const orderB =
+        b.metadata.order ?? b.metadata.seriesOrder ?? Number.MAX_SAFE_INTEGER;
+
+      if (orderA !== orderB) {
+        return orderB - orderA;
+      }
+
+      return (
         new Date(b.metadata.date).getTime() -
         new Date(a.metadata.date).getTime()
-    );
+      );
+    });
 }
 
 export function getBlogPost(slug: string) {
   return getBlogPosts().find((post) => post.slug === slug);
+}
+
+function sortSeriesPosts(posts: BlogPost[]) {
+  return [...posts].sort((a, b) => {
+    const orderA = a.metadata.seriesOrder ?? Number.MAX_SAFE_INTEGER;
+    const orderB = b.metadata.seriesOrder ?? Number.MAX_SAFE_INTEGER;
+
+    if (orderA !== orderB) {
+      return orderA - orderB;
+    }
+
+    return new Date(a.metadata.date).getTime() - new Date(b.metadata.date).getTime();
+  });
+}
+
+export function getReadingTime(content: string) {
+  const words = content.trim().split(/\s+/).filter(Boolean).length;
+  const minutes = Math.max(1, Math.ceil(words / 225));
+
+  return `${minutes} min read`;
+}
+
+export function getBlogSeries({ includeDrafts = false } = {}): BlogSeries[] {
+  const seriesMap = new Map<string, BlogSeries>();
+
+  getBlogPosts({ includeDrafts }).forEach((post) => {
+    const seriesTitle = post.metadata.series;
+
+    if (!seriesTitle) {
+      return;
+    }
+
+    const slug = slugifyValue(seriesTitle);
+    const existing = seriesMap.get(slug);
+
+    if (existing) {
+      existing.posts.push(post);
+      return;
+    }
+
+    seriesMap.set(slug, {
+      title: seriesTitle,
+      slug,
+      posts: [post],
+    });
+  });
+
+  return Array.from(seriesMap.values())
+    .map((series) => ({
+      ...series,
+      posts: sortSeriesPosts(series.posts),
+    }))
+    .sort((a, b) => a.title.localeCompare(b.title));
+}
+
+export function getBlogSeriesBySlug(slug: string) {
+  return getBlogSeries().find((series) => series.slug === slug);
+}
+
+export function getBlogPostSeriesContext(slug: string): BlogSeriesContext | undefined {
+  const post = getBlogPost(slug);
+
+  if (!post?.metadata.series) {
+    return;
+  }
+
+  const series = getBlogSeries().find(
+    (candidate) => candidate.title === post.metadata.series
+  );
+
+  if (!series) {
+    return;
+  }
+
+  const currentIndex = series.posts.findIndex((seriesPost) => seriesPost.slug === slug);
+
+  if (currentIndex < 0) {
+    return;
+  }
+
+  return {
+    series,
+    currentIndex,
+    previous: currentIndex > 0 ? series.posts[currentIndex - 1] : undefined,
+    next:
+      currentIndex < series.posts.length - 1
+        ? series.posts[currentIndex + 1]
+        : undefined,
+  };
+}
+
+export function getSeriesPartLabel(post: BlogPost) {
+  const order = post.metadata.seriesOrder;
+
+  return typeof order === "number" ? `Part ${order}` : "Part";
+}
+
+export function getSeriesPartTitle(post: BlogPost) {
+  const title = post.metadata.title;
+  const seriesTitle = post.metadata.series;
+
+  if (!seriesTitle) {
+    return title;
+  }
+
+  const withoutSeries = title
+    .replace(seriesTitle, "")
+    .replace(/^\s*\(?part\s+\d+\)?\s*[:—-]\s*/i, "")
+    .replace(/^\s*[:—-]\s*/, "")
+    .trim();
+
+  return withoutSeries || title;
 }
 
 export function getBlogTags(): BlogTag[] {

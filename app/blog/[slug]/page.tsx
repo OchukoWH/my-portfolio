@@ -5,8 +5,11 @@ import { Markdown } from "app/components/markdown";
 import {
   formatDate,
   getBlogPost,
+  getBlogPostSeriesContext,
   getBlogPosts,
   getRelatedPosts,
+  getSeriesPartLabel,
+  getSeriesPartTitle,
 } from "app/lib/posts";
 import { absoluteUrl, metaData } from "app/lib/config";
 
@@ -40,7 +43,7 @@ export async function generateMetadata({
     title: post.metadata.title,
     description: post.metadata.description,
     keywords: post.metadata.tags,
-    authors: [{ name: metaData.name }],
+    authors: [{ name: "Ochuko Whoro" }],
     alternates: {
       canonical: url,
     },
@@ -78,6 +81,7 @@ export default async function Blog({ params }: Params) {
   }
 
   const relatedPosts = getRelatedPosts(slug, 3);
+  const seriesContext = getBlogPostSeriesContext(slug);
   const url = `${metaData.baseUrl}/blog/${post.slug}`;
   const modifiedDate = post.metadata.modified ?? post.metadata.date;
   const ogImage = absoluteUrl(
@@ -102,11 +106,11 @@ export default async function Blog({ params }: Params) {
             image: ogImage,
             author: {
               "@type": "Person",
-              name: metaData.name,
+              name: "Ochuko Whoro",
             },
             publisher: {
               "@type": "Person",
-              name: metaData.name,
+              name: "Ochuko Whoro",
             },
             keywords: post.metadata.tags,
           }),
@@ -121,7 +125,7 @@ export default async function Blog({ params }: Params) {
                 href="/"
                 className="hover:text-neutral-950 dark:hover:text-neutral-100"
               >
-                {metaData.name}
+                Ochuko Whoro
               </Link>
               <time dateTime={post.metadata.date}>
                 {formatDate(post.metadata.date)}
@@ -145,6 +149,22 @@ export default async function Blog({ params }: Params) {
           <div className="article-content blog-article-content">
             <Markdown content={post.content} />
           </div>
+          {seriesContext?.next ? (
+            <section className="blog-series-nav" aria-labelledby="series-nav-title">
+              <div>
+                <p className="blog-series-nav-kicker">
+                  Next in the series
+                </p>
+                <h2 id="series-nav-title">{seriesContext.series.title}</h2>
+              </div>
+              <div className="blog-series-nav-links">
+                <Link href={`/blog/${seriesContext.next.slug}`}>
+                  <span>{getSeriesPartLabel(seriesContext.next)}</span>
+                  <strong>{getSeriesPartTitle(seriesContext.next)}</strong>
+                </Link>
+              </div>
+            </section>
+          ) : null}
           {relatedPosts.length > 0 ? (
             <section className="mx-auto mt-16 max-w-[768px] border-t border-neutral-200 pt-8 dark:border-neutral-800">
               <h2 className="text-xl font-medium">

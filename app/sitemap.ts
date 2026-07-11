@@ -1,5 +1,5 @@
 import { MetadataRoute } from "next";
-import { getBlogPosts, getBlogTags } from "./lib/posts";
+import { getBlogPosts, getBlogSeries, getBlogTags } from "./lib/posts";
 import { getProjects } from "./lib/projects";
 import { metaData } from "./lib/config";
 
@@ -18,6 +18,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     lastModified: new Date().toISOString().split("T")[0],
   }));
 
+  let blogSeries = getBlogSeries().map((series) => ({
+    url: `${BaseUrl}blog/series/${series.slug}`,
+    lastModified:
+      series.posts[series.posts.length - 1]?.metadata.modified ??
+      series.posts[series.posts.length - 1]?.metadata.date ??
+      new Date().toISOString().split("T")[0],
+  }));
+
   let projects = getProjects().map((project) => ({
     url: `${BaseUrl}projects/${project.slug}`,
     lastModified: project.metadata.date,
@@ -33,5 +41,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     lastModified: new Date().toISOString().split("T")[0],
   }));
 
-  return [...routes, ...blogs, ...blogTags, ...projects];
+  return [...routes, ...blogs, ...blogTags, ...blogSeries, ...projects];
 }

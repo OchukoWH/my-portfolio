@@ -3,12 +3,14 @@ title: "Building a Kubernetes CNI From Scratch (Part 3): Writing a Bash CNI Plug
 description: "In this article, we build the first working version of our Kubernetes CNI plugin using Bash. We create a Linux bridge, allocate pod IPs, create veth pairs, connect pods to the host, and return a valid CNI result to containerd."
 date: "2026-07-06"
 tags: "Kubernetes, CNI, Bash, Linux Networking, containerd, Platform Engineering, Cloud Native"
+cover: "/blog/cni-01/image-01.png"
 published: false
+order: 3
+series: "Building a Kubernetes CNI From Scratch"
+seriesOrder: 3
 ---
 
-In Part 1, we saw why a fresh Kubernetes cluster created with `kubeadm` stays **NotReady** until a CNI plugin is installed.
-
-In Part 2, we stepped away from Kubernetes and looked at the Linux primitives behind container networking:
+In [Part 2](/blog/cni-02), we stepped away from Kubernetes and looked at the Linux primitives behind container networking:
 
 - network namespaces
 - cgroups
@@ -40,7 +42,6 @@ By the end of this article, our Bash CNI will be able to:
 
 This is the first point in the series where Kubernetes networking stops being theory and starts becoming something we can actually touch.
 
----
 
 ## One Important Correction Before We Start
 
@@ -80,7 +81,6 @@ That means our Bash script will receive an existing namespace and then:
 
 That is exactly what production CNIs do too, although they do it with much more robust code.
 
----
 
 ## How containerd Finds Our CNI
 
@@ -146,7 +146,6 @@ The config file tells containerd **what plugin to run**.
 
 The binary contains the logic that actually configures networking.
 
----
 
 ## The Bash CNI Script
 
@@ -339,7 +338,6 @@ That means a node being Ready does not automatically prove your CNI works.
 
 The real test is whether pods can be created, receive IP addresses, and communicate.
 
----
 
 ## The Shebang
 
@@ -363,7 +361,6 @@ Linux uses the shebang to know which interpreter should execute the script.
 
 Without this, the runtime may fail to execute the plugin correctly.
 
----
 
 ## Safer Bash Defaults
 
@@ -387,7 +384,6 @@ If a command fails silently, the pod might receive a half-configured network nam
 
 That is worse than failing clearly.
 
----
 
 ## State, Config and Logs
 
@@ -448,7 +444,6 @@ This is where we log every call containerd makes to our CNI.
 
 This is extremely useful while debugging.
 
----
 
 ## Creating the State Directory
 
@@ -465,7 +460,6 @@ The `-p` flag means:
 
 So this is safe to run every time the plugin is called.
 
----
 
 ## Locking the CNI
 
@@ -492,7 +486,6 @@ The `flock` command ensures only one instance of our CNI script can allocate IP 
 
 This makes IP allocation safer.
 
----
 
 ## Loading the Node Config
 
@@ -520,7 +513,6 @@ $POD_CIDR
 
 This is how each node knows what pod subnet it should use.
 
----
 
 ## Bridge and Gateway Variables
 
@@ -572,7 +564,6 @@ Pods will get addresses like:
 
 So the bridge becomes the default gateway for pods on that node.
 
----
 
 ## Logging Every CNI Call
 
@@ -609,7 +600,6 @@ This tells us:
 
 When your CNI breaks, this log file is one of the first places to check.
 
----
 
 ## Creating the Linux Bridge
 
@@ -769,7 +759,6 @@ This is not production-grade IPAM, but it is enough for learning.
 
 A real CNI would use a proper IPAM plugin or a more reliable allocation system.
 
----
 
 ## Releasing Pod IP Addresses
 
@@ -822,7 +811,6 @@ ADD = allocate IP
 DEL = release IP
 ```
 
----
 
 ## Handling the ADD Command
 
@@ -917,7 +905,6 @@ ip netns exec
 
 usually work with namespace names.
 
----
 
 ## Cleaning Up Old Interfaces
 
@@ -946,7 +933,6 @@ means:
 
 That is useful because `set -e` would normally stop the script when a command fails.
 
----
 
 ## Creating the veth Pair
 
@@ -982,7 +968,6 @@ At this moment, both interfaces still exist on the host.
 
 Nothing has entered the pod namespace yet.
 
----
 
 ## Moving One End Into the Pod Namespace
 
@@ -1020,7 +1005,6 @@ The pod gets one end of the pipe.
 
 The host keeps the other end.
 
----
 
 ## Renaming the Pod Interface
 
@@ -1062,7 +1046,6 @@ eth0
 
 So the pod sees a normal-looking network interface.
 
----
 
 ## Connecting the Host Side to the Bridge
 
@@ -1098,7 +1081,6 @@ ip link set "$HOST_VETH" up
 
 Without this, the interface exists but cannot pass traffic.
 
----
 
 ## Assigning the Pod IP Address
 
@@ -1144,7 +1126,6 @@ This matters because many applications expect `localhost` to work.
 
 Inside the pod, `localhost` refers to the pod's own network namespace.
 
----
 
 ## Adding the Default Route
 
@@ -1238,7 +1219,6 @@ HOST_VETH=$HOST_VETH
 
 Without this state file, cleanup becomes much harder.
 
----
 
 ## Returning the CNI Result to containerd
 
@@ -1314,7 +1294,6 @@ Kubelet can then report the pod IP back to the Kubernetes API Server.
 
 That is how `kubectl get pods -o wide` eventually shows a pod IP.
 
----
 
 ## Handling the DEL Command
 
@@ -1382,7 +1361,6 @@ This is why CNIs must implement cleanup.
 
 If they don't, nodes slowly accumulate stale interfaces, routes, IP allocations, and broken state.
 
----
 
 ## Handling CHECK
 
@@ -1408,7 +1386,6 @@ A real CNI should check that:
 
 But for this learning implementation, returning success is fine.
 
----
 
 ## Routing Commands From containerd
 
@@ -1451,7 +1428,6 @@ Anything else fails.
 
 This is the command lifecycle of a CNI plugin.
 
----
 
 # Testing the CNI
 
@@ -1522,7 +1498,6 @@ nginx-1   1/1     Running   10.244.1.2
 
 That pod IP came from our Bash CNI.
 
----
 
 ## Testing Node to Pod Communication
 
@@ -1576,7 +1551,6 @@ nginx
 
 That is host-to-pod communication.
 
----
 
 ## Testing Pod to Node Communication
 
@@ -1622,7 +1596,6 @@ Host
 
 That is pod-to-node communication.
 
----
 
 ## Testing Pod to Pod Communication on the Same Node
 
@@ -1712,7 +1685,6 @@ No routing across nodes is needed.
 
 Same-node pod-to-pod communication is just bridge networking.
 
----
 
 ## What Works Now?
 
@@ -1762,7 +1734,6 @@ To make cross-node pod networking work, we need node-to-node routing.
 
 That will come in the next article.
 
----
 
 ## What About Internet Access?
 
@@ -1818,7 +1789,6 @@ The default route inside the pod gets the packet to the host.
 
 The host then needs forwarding and NAT rules to push it out to the Internet.
 
----
 
 # What We Built
 
@@ -1848,7 +1818,6 @@ On `DEL`, it:
 
 That is the basic lifecycle of a CNI plugin.
 
----
 
 # What's Coming Next?
 

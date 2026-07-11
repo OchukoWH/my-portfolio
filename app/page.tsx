@@ -74,7 +74,6 @@ export default function Page() {
         </div>
       </div>
 
-
       {featuredProjects.length > 0 ? (
         <div className="space-y-5">
           <div className="flex items-end justify-between gap-4">

@@ -4,7 +4,10 @@ description: "You installed Kubernetes with kubeadm, joined your worker nodes, b
 date: "2026-07-05"
 tags: "Kubernetes, Networking, Linux, CNI, Containerd, Platform Engineering, Cloud Native"
 cover: "/blog/cni-01/image-01.png"
-published: false
+published: true
+order: 1
+series: "Building a Kubernetes CNI From Scratch"
+seriesOrder: 1
 ---
 
 Ever wondered how Kubernetes networking actually works?
@@ -556,7 +559,7 @@ We'll manually create the networking for a pod, connect the host to the network 
 
 From there, we'll continue expanding our implementation until pods can communicate across multiple nodes and eventually enforce network policies.
 
-See you in Part 2.
+Continue with [Part 2](/blog/cni-02).
 
 ## References
 
