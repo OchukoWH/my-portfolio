@@ -30,8 +30,7 @@ export default function Page() {
         <div className="prose prose-neutral dark:prose-invert text-lg">
           <p>
             <span className="font-bold">Ochuko</span> is a Kubernetes {/*and AWS*/} certified cloud-native
-            infrastructure engineer focused on Kubernetes, Linux, Go, AWS,
-            Terraform, and platform engineering.
+            infrastructure engineer focused on Kubernetes, Containers, Virtualization, Storage and GPUs.
           </p>
           <p>
             He works on Kubernetes platforms, networking, storage,
@@ -46,19 +45,21 @@ export default function Page() {
           <p>
             My work combines software engineering with infrastructure
             engineering. I write Go, Python, TypeScript, Bash, and Terraform to
-            build cloud-native tools, automate infrastructure, and publish
-            practical technical articles that help engineers understand complex
-            systems.
+            build cloud-native tools, and automate infrastructure. I also write about     <Link
+            href="/blog"
+          >
+            things I am learning.
+          </Link>
           </p>
         </div>
 
         <div className="flex flex-wrap gap-3">
-          <Link
+          {/* <Link
             className="rounded-md bg-neutral-950 px-4 py-2 text-sm font-medium text-white dark:bg-white dark:text-neutral-950"
             href="/projects"
           >
             View Projects
-          </Link>
+          </Link> */}
           <Link
             className="rounded-md border border-neutral-300 px-4 py-2 text-sm font-medium dark:border-neutral-700"
             href="/blog"
