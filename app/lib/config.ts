@@ -3,7 +3,7 @@ export const metaData = {
   title: "Ochuko Whoro | Kubernetes & Cloud Native Infrastructure Engineer",
   name: "Ochuko Whoro",
   ogImage: "/og/home.png",
-  defaultBlogOgImage: "/og/default-blog.png",
+  defaultBlogOgImage: "/og/default-blog",
   defaultProjectOgImage: "/og/default-project.png",
   description:
     "Kubernetes and AWS certified cloud-native infrastructure engineer building platform tools, Kubernetes infrastructure, networking, storage, virtualization, and automation using Go, Linux, Terraform, and AWS.",
