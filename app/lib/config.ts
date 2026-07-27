@@ -42,9 +42,9 @@ export function absoluteUrl(pathOrUrl: string) {
 
 export const socialLinks = {
   twitter: "",
-  github: "https://github.com/ochukowhoro",
+  github: "https://github.com/ochukowh",
   instagram: "",
-  linkedin: "https://www.linkedin.com/in/ochukowhoro",
+  linkedin: "https://www.linkedin.com/in/ochuko-whoro-214b6328b",
   email: "mailto:hello@ochukowhoro.com",
 };
 
