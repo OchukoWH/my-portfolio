@@ -133,15 +133,29 @@ export function slugifyValue(value: string) {
 export function getBlogPosts({ includeDrafts = false } = {}) {
   return getMarkdownFiles(BLOG_DIR)
     .map((file) => {
-      const rawContent = fs.readFileSync(path.join(BLOG_DIR, file), "utf-8");
-      const { metadata, content } = parseFrontmatter(rawContent);
+      try {
+        const rawContent = fs.readFileSync(path.join(BLOG_DIR, file), "utf-8");
 
-      return {
-        metadata,
-        content,
-        slug: path.basename(file, ".md"),
-      };
+        if (!rawContent.trim()) {
+          console.warn(`Skipping ${file}: empty file`);
+          return null;
+        }
+
+        const { metadata, content } = parseFrontmatter(rawContent);
+
+        return {
+          metadata,
+          content,
+          slug: path.basename(file, ".md"),
+        } as BlogPost;
+      } catch (error) {
+        console.warn(
+          `Skipping ${file}: ${error instanceof Error ? error.message : String(error)}`
+        );
+        return null;
+      }
     })
+    .filter((post): post is BlogPost => post !== null)
     .filter((post) => includeDrafts || post.metadata.published)
     .sort((a, b) => {
       const orderA =

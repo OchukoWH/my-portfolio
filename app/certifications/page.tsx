@@ -9,8 +9,6 @@ const certifications = [
     issuedOn: "June 24, 2026",
     credentialUrl:
       "https://www.credly.com/badges/d2cbc70b-40ac-411c-9d3c-5cce83f059df/public_url",
-    certificateUrl:
-      "https://ti-user-certificates.s3.amazonaws.com/e0df7fbf-a057-42af-8a1f-590912be5460/3766f965-ef92-406e-9b85-40d52f7aa8ec-ochuko-whoro-d76fbc49-22bb-4da6-804d-c452030d05a4-certificate.pdf",
     previewImage: "/certs/cka.png",
   },
   {
@@ -21,8 +19,6 @@ const certifications = [
     previewImage: "/certs/ckad.png",
     credentialUrl:
       "https://www.credly.com/badges/d6443013-fb65-4e7e-9fe0-6d832720cdca/public_url",
-    certificateUrl:
-      "https://ti-user-certificates.s3.us-east-1.amazonaws.com/e0df7fbf-a057-42af-8a1f-590912be5460/3766f965-ef92-406e-9b85-40d52f7aa8ec-ochuko-whoro-46ccba76-5b4f-4581-b37b-f2fcb9a132c0-certificate.pdf",
   },
   {
     name: "AWS Certified Solutions Architect",
@@ -98,16 +94,6 @@ export default function Certifications() {
                       rel="noreferrer"
                     >
                       View Credly
-                    </a>
-                  ) : null}
-                  {certification.certificateUrl ? (
-                    <a
-                      className="rounded-md border border-neutral-300 px-3 py-1.5 font-medium dark:border-neutral-700"
-                      href={certification.certificateUrl}
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      View Certificate
                     </a>
                   ) : null}
                 </div>

@@ -102,18 +102,29 @@ function slugifyTag(tag: string) {
 export function getProjects({ includeDrafts = false } = {}) {
   return getMarkdownFiles(PROJECTS_DIR)
     .map((file) => {
-      const rawContent = fs.readFileSync(
-        path.join(PROJECTS_DIR, file),
-        "utf-8"
-      );
-      const { metadata, content } = parseFrontmatter(rawContent);
+      try {
+        const rawContent = fs.readFileSync(path.join(PROJECTS_DIR, file), "utf-8");
 
-      return {
-        metadata,
-        content,
-        slug: path.basename(file, ".md"),
-      };
+        if (!rawContent.trim()) {
+          console.warn(`Skipping ${file}: empty file`);
+          return null;
+        }
+
+        const { metadata, content } = parseFrontmatter(rawContent);
+
+        return {
+          metadata,
+          content,
+          slug: path.basename(file, ".md"),
+        } as Project;
+      } catch (error) {
+        console.warn(
+          `Skipping ${file}: ${error instanceof Error ? error.message : String(error)}`
+        );
+        return null;
+      }
     })
+    .filter((project): project is Project => project !== null)
     .filter((project) => includeDrafts || project.metadata.published)
     .sort((a, b) => {
       if (a.metadata.featured !== b.metadata.featured) {
