@@ -112,7 +112,7 @@ export default function RootLayout({
                   "@type": "Person",
                   name: metaData.name,
                   jobTitle: "Cloud Native Infrastructure Engineer",
-                  email: "hello@ochukowhoro.com",
+                  email: "whoroochuko@gmail.com",
                   url: metaData.baseUrl,
                   knowsAbout: [
                     "Kubernetes",

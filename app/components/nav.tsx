@@ -27,14 +27,14 @@ export function Navbar() {
               {name}
             </Link>
           ))}
-          <a
+          {/* <a
             href={resumeUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="transition-all hover:text-neutral-800 dark:hover:text-neutral-200 flex align-middle relative"
           >
             Resume
-          </a>
+          </a> */}
           <ThemeSwitch />
         </div>
       </div>

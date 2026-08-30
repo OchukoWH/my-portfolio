@@ -13,6 +13,26 @@ const certifications = [
       "https://ti-user-certificates.s3.amazonaws.com/e0df7fbf-a057-42af-8a1f-590912be5460/3766f965-ef92-406e-9b85-40d52f7aa8ec-ochuko-whoro-d76fbc49-22bb-4da6-804d-c452030d05a4-certificate.pdf",
     previewImage: "/certs/cka.png",
   },
+  {
+    name: "Certified Kubernetes Application Developer",
+    shortName: "CKAD",
+    status: "Earned",
+    issuedOn: "August 29, 2026",
+    previewImage: "/certs/ckad.png",
+    credentialUrl:
+      "https://www.credly.com/badges/d6443013-fb65-4e7e-9fe0-6d832720cdca/public_url",
+    certificateUrl:
+      "https://ti-user-certificates.s3.us-east-1.amazonaws.com/e0df7fbf-a057-42af-8a1f-590912be5460/3766f965-ef92-406e-9b85-40d52f7aa8ec-ochuko-whoro-46ccba76-5b4f-4581-b37b-f2fcb9a132c0-certificate.pdf",
+  },
+  {
+    name: "AWS Certified Solutions Architect",
+    shortName: "AWS SAA",
+    status: "Earned",
+    issuedOn: "August 15, 2026",
+    credentialUrl:
+      "https://www.credly.com/badges/c84c03e6-6a59-4ca2-90ba-c483e030c78d/public_url",
+    previewImage: "/certs/aws_saa.png",
+  },
   // {
   //   name: "Certified Kubernetes Security Specialist",
   //   shortName: "CKS",

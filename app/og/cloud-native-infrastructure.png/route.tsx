@@ -22,29 +22,34 @@ export function GET() {
         <div
           style={{
             color: "#67e8f9",
-            fontSize: 36,
-            fontWeight: 700,
+            fontSize: 50,
+            fontWeight: 800,
             letterSpacing: 0,
-            marginBottom: 28,
+            marginBottom: 34,
+            textAlign: "center",
           }}
         >
           Cloud Native Infrastructure
         </div>
         <div
           style={{
+            alignItems: "center",
             color: "#f8fafc",
             display: "flex",
-            fontSize: 64,
+            flexWrap: "wrap",
+            fontSize: 62,
             fontWeight: 800,
-            gap: 22,
+            gap: "24px 30px",
+            justifyContent: "center",
             letterSpacing: 0,
             lineHeight: 1.12,
             textAlign: "center",
+            width: "100%",
           }}
         >
           <span>Kubernetes</span>
+          <span style={{ color: "#e2e8f0" }}>Linux</span>
           <span style={{ color: "#22c55e" }}>Go</span>
-          <span>Linux</span>
           <span style={{ color: "#f59e0b" }}>Containers</span>
         </div>
       </div>

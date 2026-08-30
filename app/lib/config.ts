@@ -3,7 +3,7 @@ export const metaData = {
   title: "Ochuko Whoro | Kubernetes & Cloud Native Infrastructure Engineer",
   name: "Ochuko Whoro",
   ogImage: "/og/home.png",
-  defaultBlogOgImage: "/og/default-blog",
+  defaultBlogOgImage: "/og/cloud-native-infrastructure.png",
   defaultProjectOgImage: "/og/default-project.png",
   description:
     "Kubernetes and AWS certified cloud-native infrastructure engineer building platform tools, Kubernetes infrastructure, networking, storage, virtualization, and automation using Go, Linux, Terraform, and AWS.",
@@ -45,13 +45,13 @@ export const socialLinks = {
   github: "https://github.com/ochukowh",
   instagram: "",
   linkedin: "https://www.linkedin.com/in/ochuko-whoro-214b6328b",
-  email: "mailto:hello@ochukowhoro.com",
+  email: "mailto:whoroochuko@gmail.com",
 };
 
 export const contactLinks = {
-  email: "hello@ochukowhoro.com",
+  email: "whoroochuko@gmail.com",
   bookSession:
-    "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Platform%20engineering%20consultation%20with%20Ochuko%20Whoro&details=Consultation%20about%20Kubernetes%2C%20platform%20engineering%2C%20cloud-native%20infrastructure%2C%20or%20technical%20writing.%0A%0APlease%20add%20Google%20Meet%20conferencing%20to%20this%20event.&location=Google%20Meet&add=hello%40ochukowhoro.com",
+    "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Platform%20engineering%20consultation%20with%20Ochuko%20Whoro&details=Consultation%20about%20Kubernetes%2C%20platform%20engineering%2C%20cloud-native%20infrastructure%2C%20or%20technical%20writing.%0A%0APlease%20add%20Google%20Meet%20conferencing%20to%20this%20event.&location=Google%20Meet&add=whoroochuko%40gmail.com",
 };
 
 export const resumeUrl = "/resume/Ochuko_Whoro_Generic.pdf";
